@@ -21,6 +21,12 @@ angular.module('starter', ['ionic', 'starter.services'])
     })
 
     .controller('MainCtrl', function($scope, Camera, Analyzer) {
+        $scope.header = 'Analysis'
+        $scope.age = 28;
+        $scope.gender = 'Female';
+        $scope.glass = 'None';
+        $scope.race = 'White';
+        $scope.happy = '99.4105%';
 
         var reset = function() {
             $scope.age = '';
@@ -31,7 +37,8 @@ angular.module('starter', ['ionic', 'starter.services'])
         }
 
         $scope.getPhoto = function() {
-
+            $scope.header = 'Analyzing photo please wait....'
+            reset();
 
             Camera.getPicture(
                 {
@@ -45,11 +52,11 @@ angular.module('starter', ['ionic', 'starter.services'])
             ).then(function(imageData) {
                 var x = 'data:image/jpeg;base64,' + imageData;
                 document.getElementById('preview').src = x ;
-                reset();
 
                 Analyzer.send(x,function(response) {
+                    $scope.header = 'Analysis'
                     if(!response.face[0]) {
-                        alert('Unable to detect your stupid face. Pleace change your face.')
+                        alert('Unable to detect your face. Please try again.')
                         return;
                     }
 
@@ -60,14 +67,18 @@ angular.module('starter', ['ionic', 'starter.services'])
                     $scope.happy = response.face[0].attribute.smiling.value + '%';
 
                 }, function() {
+                    $scope.header = 'Analysis'
                     alert('rest server error');
                 });
             }, function(err) {
-                console.err(err);
+                console.log(err);
             });
         };
 
         $scope.selectPhoto = function() {
+            $scope.header = 'Analyzing photo please wait....'
+            reset();
+
             Camera.getPicture(
                 {
                     quality: 100,
@@ -80,11 +91,11 @@ angular.module('starter', ['ionic', 'starter.services'])
             ).then(function(imageData) {
                 var x = 'data:image/jpeg;base64,' + imageData;
                 document.getElementById('preview').src = x ;
-                reset();
 
                 Analyzer.send(x,function(response) {
+                    $scope.header = 'Analysis'
                     if(!response.face[0]) {
-                        alert('Unable to detect your stupid face. Pleace change your face.')
+                        alert('Unable to detect your face. Please select other photo.')
                         return;
                     }
 
@@ -95,6 +106,7 @@ angular.module('starter', ['ionic', 'starter.services'])
                     $scope.happy = response.face[0].attribute.smiling.value + '%';
 
                 }, function() {
+                    $scope.header = 'Analysis'
                     alert('rest server error');
                 });
             }, function(err) {

@@ -1,4 +1,10 @@
 /* Empty. Add your own CSS if you like */
 .bar-header, .title { background: #2A6BD5; color: #fff; }
+.preview-wrapper { height: 180px; text-align: center; font: 0/0 a; }
+
+.preview-wrapper img { display: inline-block;
+    vertical-align: middle;  /* vertical alignment of the inline element */
+    font: 16px/1 Arial sans-serif;  }
+.stats { margin-top: 145px; }
 
 .buttons button { background: #4F8EF7; color: #fff; }

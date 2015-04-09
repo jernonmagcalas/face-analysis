@@ -27,14 +27,16 @@
     <h1 class="title">Face Analyzer</h1>
 </ion-header-bar>
 <ion-content padding="true">
-    <div>
-        <img ng-src="{{lastPhoto}}" style="max-width: 100%" />
+    <div style="text-align: center">
+        <img src="" style="max-width: 100%" id="preview" />
     </div>
     <div class="stats">
         <h4>Analysis</h4>
-        <div>Age : 7</div>
-        <div>Race : 99% asian</div>
-        <div>Happy Meter : 99%</div>
+        <div>Age : {{age}}</div>
+        <div>Gender : {{gender}}</div>
+        <div>Glasses : {{glass}}</div>
+        <div>Race : {{race}}</div>
+        <div>Happy Meter : {{happy}}</div>
     </div>
 
     <div class="row buttons">

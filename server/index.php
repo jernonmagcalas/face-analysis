@@ -7,13 +7,16 @@ $facepp->api_key       = '83ec85fc12b1d2ca37067da2aa4b510a';
 $facepp->api_secret    = 'zQAUYqxBjotNNMaV7874l2mVMs4gZhPp';
 
 $_POST = json_decode(file_get_contents('php://input'),true);
+
+file_put_contents('test.txt', $_POST);
+
 if(!isset($_POST['img'])) {
 $error = array('error' => true, 'message' => 'Missing img arguement');
     die(json_encode($error));
 }
 
-$root           = realpath(__DIR__.'/..');
-$path           = '/upload/';
+$root           = realpath(__DIR__);
+$path           = '/';
 $file           = md5(time().floor(rand() * 1000000000000));
 $tmp            = explode(';', $_POST['img']);
 $extension      = str_replace('data:image/', '', array_shift($tmp));

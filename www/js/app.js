@@ -21,21 +21,52 @@ angular.module('starter', ['ionic', 'starter.services'])
     })
 
     .controller('MainCtrl', function($scope, Camera, Analyzer) {
+        $scope.age = 28;
+        $scope.gender = 'Female';
+        $scope.glass = 'None';
+        $scope.race = 'White';
+        $scope.happy = '99.4105%';
+
+        var reset = function() {
+            $scope.age = '';
+            $scope.gender = '';
+            $scope.glass = '';
+            $scope.race = '';
+            $scope.happy = '';
+        }
 
         $scope.getPhoto = function() {
+
+
             Camera.getPicture(
                 {
                     quality: 100,
                     targetWidth: 320,
                     targetHeight: 320,
                     saveToPhotoAlbum: false,
-                    //destinationType: navigator.camera.DestinationType.DATA_URL,
-                    //sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
+                    destinationType: navigator.camera.DestinationType.DATA_URL,
                     correctOrientation: true
                 }
-            ).then(function(imageURI) {
-                console.log(imageURI);
-                $scope.lastPhoto = imageURI;
+            ).then(function(imageData) {
+                var x = 'data:image/jpeg;base64,' + imageData;
+                document.getElementById('preview').src = x ;
+                reset();
+
+                Analyzer.send(x,function(response) {
+                    if(!response.face[0]) {
+                        alert('Unable to detect your stupid face. Pleace change your face.')
+                        return;
+                    }
+
+                    $scope.age = response.face[0].attribute.age.value;
+                    $scope.gender = response.face[0].attribute.gender.value;
+                    $scope.glass = response.face[0].attribute.glass.value;
+                    $scope.race = response.face[0].attribute.race.value;
+                    $scope.happy = response.face[0].attribute.smiling.value + '%';
+
+                }, function() {
+                    alert('rest server error');
+                });
             }, function(err) {
                 console.err(err);
             });
@@ -47,23 +78,30 @@ angular.module('starter', ['ionic', 'starter.services'])
                     quality: 100,
                     targetWidth: 320,
                     targetHeight: 320,
-                    saveToPhotoAlbum: false,
+                    correctOrientation: true,
                     destinationType: navigator.camera.DestinationType.DATA_URL,
-                    sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY,
-                    correctOrientation: true
+                    sourceType: navigator.camera.PictureSourceType.PHOTOLIBRARY
                 }
             ).then(function(imageData) {
-                    var x = 'data:image/jpeg;base64,' + imageData;
-                    console.log(x);
-                    Analyzer.send(x,function(x, b, d) {
-                        console.log('success');
-                        console.log(b);
-                        console.log(d);
-                    }, function(x, b) {
-                        console.log('error')
-                        console.log(b)
-                    })
-                //$scope.lastPhoto = imageData;
+                var x = 'data:image/jpeg;base64,' + imageData;
+                document.getElementById('preview').src = x ;
+                reset();
+
+                Analyzer.send(x,function(response) {
+                    if(!response.face[0]) {
+                        alert('Unable to detect your stupid face. Pleace change your face.')
+                        return;
+                    }
+
+                    $scope.age = response.face[0].attribute.age.value;
+                    $scope.gender = response.face[0].attribute.gender.value;
+                    $scope.glass = response.face[0].attribute.glass.value;
+                    $scope.race = response.face[0].attribute.race.value;
+                    $scope.happy = response.face[0].attribute.smiling.value + '%';
+
+                }, function() {
+                    alert('rest server error');
+                });
             }, function(err) {
                 console.log(err);
             });

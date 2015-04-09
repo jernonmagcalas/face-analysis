@@ -29,15 +29,7 @@ angular.module('starter.services', [])
             //fd.append('img', $data);
             //fd.append('api_key', '83ec85fc12b1d2ca37067da2aa4b510a')
             //fd.append('api_secret', 'zQAUYqxBjotNNMaV7874l2mVMs4gZhPp')
-            $http.post('http://fa-server.chiligarlic.com', {img : data}).success(function(response) {
-                for(var i in response) {
-                    console.log(i + ' = ' +response[i]);
-                }
-                //console.log(response.face);
-            }).error(function(response, code) {
-
-                console.log(code);
-            });
+            $http.post('http://fa-server.chiligarlic.com', {img : data}).success(success).error(err);
         }
     }
 }])

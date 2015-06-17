@@ -1,4 +1,0 @@
-Twitter
-=======
-
-Eden Twitter component

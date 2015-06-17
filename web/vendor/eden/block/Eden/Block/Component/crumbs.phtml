@@ -1,0 +1,16 @@
+<?php if(!empty($crumbs)): ?>
+<ul class="breadcrumb">
+    <?php foreach($crumbs as $i => $crumb): ?>
+    <li<?php if(($i+1) == count($crumbs)): ?> class="active"<?php endif; ?>>
+        <?php if($crumb['icon']): ?>
+        <i class="icon-home home-<?php echo $crumb['icon']; ?>"></i>
+        <?php endif; ?>
+        <?php if($crumb['path']): ?>
+        <a href="<?php echo $crumb['path']; ?>"><?php echo $crumb['label']; ?></a>
+        <?php else: ?>
+        <?php echo $crumb['label']; ?>
+        <?php endif; ?>
+    </li>
+    <?php endforeach; ?>
+</ul><!-- .breadcrumb -->
+<?php endif; ?>

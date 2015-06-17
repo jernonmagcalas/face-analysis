@@ -1,0 +1,13 @@
+<form class="form-inline" role="form">
+	<div class="form-group">
+  		<?php echo eden('block')->field()->text()->setAttributes($attributes); ?>
+	</div>
+	<?php if($use_icon): ?>
+	<?php echo eden('block')->field()
+	->button('<i class="icon-search"></i>'); ?>
+	<?php else: ?>
+	<?php echo eden('block')->field()
+	->button(eden('block')->translate('Search'))
+	->setAttributes('class', 'btn-primary'); ?>
+    <?php endif; ?>
+</form>

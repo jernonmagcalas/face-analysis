@@ -1,0 +1,14 @@
+<?php include __DIR__ . '/text.phtml'; ?>
+<?php if(!$loaded): ?>
+<script type="text/javascript" src="<?php echo $cdn(); ?>/scripts/tag.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $cdn(); ?>/styles/tag.css" />
+<?php endif; ?>
+<?php if(!empty($options)): ?>
+<?php if(!$loaded): ?>
+<script type="text/javascript" src="<?php echo $cdn(); ?>/scripts/autocomplete.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $cdn(); ?>/styles/autocomplete.css" />
+<?php endif; ?>
+<script type="text/javascript">(function($) {var tag = jQuery('input.eden-field-tag').not('.eden-field-loaded').addClass('eden-field-loaded');tag.tagsManager({prefilled: tag.val().split(','), replace: true, tagClass: 'btn'});tag.typeahead(<?php echo json_encode($options); ?>).on('typeahead:selected', function (e, d) {tag.tagsManager("pushTag", d.value);});})(jQuery);</script>
+<?php else: ?>
+<script type="text/javascript">(function($) {var tag = jQuery('input.eden-field-tag').not('.eden-field-loaded').addClass('eden-field-loaded');tag.tagsManager({prefilled: tag.val().split(','), replace: true, tagClass: 'btn'});})(jQuery);</script>
+<?php endif; ?>

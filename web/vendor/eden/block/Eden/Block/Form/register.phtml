@@ -1,0 +1,89 @@
+<?php if($use_email): ?>
+<div class="form-group<?php if(isset($errors['user_email'])): ?> has-error<?php endif; ?>">
+    <label for="user_email" class="col-lg-2 control-label"><?php 
+	$_('Email'); ?> <span>*</span></label>
+    <div class="col-lg-10">
+    	<?php //Text Field Block
+		echo eden('block')->field()
+		->text('user_email')
+		->setType('email')
+		->setAttributes('required', 'required')
+		->setValue(isset($data['user_email']) ? $data['user_email']: null)
+		->setHolder(isset($holders['user_email']) ? $holders['user_email']: null); ?>
+        
+        <?php //If there's an error
+		if(isset($errors['user_email'])): ?>
+        <span class="help-block"><?php echo $errors['user_email']; ?></span>
+        <?php endif; ?>
+    </div>
+</div>
+<?php else: ?>
+<div class="form-group<?php if(isset($errors['user_slug'])): ?> has-error<?php endif; ?>">
+    <label for="user_slug" class="col-lg-2 control-label"><?php 
+	$_('Username'); ?> <span>*</span></label>
+    <div class="col-lg-10">
+    	<?php //Text Field Block
+		echo eden('block')->field()
+		->text('user_slug')
+		->setAttributes('required', 'required')
+		->setValue(isset($data['user_slug']) ? $data['user_slug']: null)
+		->setHolder(isset($holders['user_slug']) ? $holders['user_slug']: null); ?>
+        
+        <?php //If there's an error
+		if(isset($errors['user_slug'])): ?>
+        <span class="help-block"><?php echo $errors['user_slug']; ?></span>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endif; ?>
+<div class="form-group<?php if(isset($errors['user_name'])): ?> has-error<?php endif; ?>">
+    <label for="user_name" class="col-lg-2 control-label"><?php 
+	$_('Full Name'); ?> <span>*</span></label>
+    <div class="col-lg-10">
+    	<?php //Text Field Block
+		echo eden('block')->field()
+		->text('user_name')
+		->setAttributes('required', 'required')
+		->setValue(isset($data['user_name']) ? $data['user_name']: null)
+		->setHolder(isset($holders['user_name']) ? $holders['user_name']: null); ?>
+        
+        <?php //If there's an error
+		if(isset($errors['user_name'])): ?>
+        <span class="help-block"><?php echo $errors['user_name']; ?></span>
+        <?php endif; ?>
+    </div>
+</div>
+<div class="form-group<?php if(isset($errors['user_password'])): ?> has-error<?php endif; ?>">
+    <label for="user_password" class="col-lg-2 control-label"><?php 
+	$_('Password'); ?> <span>*</span></label>
+    <div class="col-lg-10">
+    	<?php //Password Field Block
+		echo eden('block')->field()
+		->password('user_password')
+		->setAttributes('required', 'required')
+		->setValue(isset($data['user_password']) ? $data['user_password']: null)
+		->setHolder(isset($holders['user_password']) ? $holders['user_password']: null); ?>
+        
+        <?php //If there's an error
+		if(isset($errors['user_password'])): ?>
+        <span class="help-block"><?php echo $errors['user_password']; ?></span>
+        <?php endif; ?>
+    </div>
+</div>
+<div class="form-group<?php if(isset($errors['user_confirm'])): ?> has-error<?php endif; ?>">
+    <label for="user_confirm" class="col-lg-2 control-label"><?php 
+	$_('Confirm'); ?> <span>*</span></label>
+    <div class="col-lg-10">
+    	<?php //Password Field Block
+		echo eden('block')->field()
+		->password('user_confirm')
+		->setAttributes('required', 'required')
+		->setValue(isset($data['user_confirm']) ? $data['user_confirm']: null)
+		->setHolder(isset($holders['user_confirm']) ? $holders['user_confirm']: null); ?>
+        
+        <?php //If there's an error
+		if(isset($errors['user_confirm'])): ?>
+        <span class="help-block"><?php echo $errors['user_confirm']; ?></span>
+        <?php endif; ?>
+    </div>
+</div>

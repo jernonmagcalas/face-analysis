@@ -1,0 +1,46 @@
+<?php foreach($fields as $key => $show): ?>
+<?php if(!$show) { continue; } ?>
+<div class="form-group<?php if(isset($errors[$key])): ?> has-error<?php endif; ?>">
+	<?php if(isset($labels[$key])): ?>
+    <label for="<?php echo $key; ?>" class="col-lg-2 control-label"><?php 
+	$_($labels[$key]); ?> <span>*</span></label>
+    <?php endif; ?>
+    <div class="<?php if(isset($labels[$key])): 
+	?>col-lg-10<?php else: ?>col-lg-12<?php endif; ?>">
+<?php switch($key): ?>
+<?php case 'post_title': ?>
+<?php case 'post_slug': ?>
+    	<?php //Text Field Block
+		echo eden('block')->field()
+		->text($key)
+		->setAttributes('required', 'required')
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setHolder(isset($holders[$key]) ? $holders[$key]: null); ?>
+<?php break; case 'post_detail': ?>
+		<?php if($use_wysiwyg): ?>
+        <?php echo eden('block')->field()
+		->wysiwyg('post_detail')
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setAttributes('rows', 10); ?>
+        <?php else: ?>
+    	<?php //Textarea Field Block
+		echo eden('block')->field()
+		->textarea($key)
+		->setAttributes('required', 'required')
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setHolder(isset($holders[$key]) ? $holders[$key]: null); ?>
+        <?php endif; ?>
+<?php break; case 'post_active': ?>
+    	<?php //Radio Field Block
+		echo eden('block')->field()
+		->radio($key, 
+		isset($data[$key]) ? $data[$key]: null,
+		array('1' => 'Yes', '0' => 'No')); ?>
+<?php break; endswitch; ?>
+        
+        <?php if(isset($errors[$key])): ?>
+        <span class="help-block"><?php echo $errors[$key]; ?></span>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endforeach; ?>

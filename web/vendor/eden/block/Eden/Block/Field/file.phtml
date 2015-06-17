@@ -1,0 +1,11 @@
+<div class="eden-field-file form-control clearfix">
+<?php include __DIR__ . '/text.phtml'; ?>
+<?php if(isset($attributes['multiple'])): ?>
+<span class="eden-field-file-list clearfix"></span>
+<?php if(!$loaded): ?>
+<script type="text/javascript" src="<?php echo $cdn(); ?>/scripts/file.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $cdn(); ?>/styles/file.css" />
+<?php endif; ?>
+</div>
+<script type="text/javascript">jQuery('div.eden-field-file').not('.eden-field-loaded').addClass('eden-field-loaded').addClass('eden-field-file').file();</script>
+<?php endif; ?>

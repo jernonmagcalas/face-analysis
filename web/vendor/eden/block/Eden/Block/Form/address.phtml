@@ -1,0 +1,102 @@
+<?php foreach($fields as $key => $show): ?>
+<?php if(!$show) { continue; } ?>
+<div class="form-group<?php if(isset($errors[$key])): ?> has-error<?php endif; ?>">
+	<?php if(isset($labels[$key])): ?>
+    <label for="<?php echo $key; ?>" class="col-lg-2 control-label"><?php 
+	$_($labels[$key]); ?><?php if(in_array($key, $required)): 
+	?> <span>*</span><?php endif; ?></label>
+    <?php endif; ?>
+    <div class="<?php if(isset($labels[$key])): 
+	?>col-lg-10<?php else: ?>col-lg-12<?php endif; ?>">
+<?php switch($key): ?>
+<?php case 'address_street_1': ?>
+<?php case 'address_city': ?>
+<?php case 'address_street_2': ?>
+<?php case 'address_postal': ?>
+    	<?php //Text Field Block
+		echo eden('block')->field()
+		->text($key)
+		->when(in_array($key, $required), function($instance) {
+			$instance->setAttributes('required', 'required');
+		})
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setHolder(isset($holders[$key]) ? $holders[$key]: null); ?>
+       
+<?php break; case 'address_state': ?> 
+		<?php if(!empty($states)): ?>
+        
+		<?php //Autocomplete Field Block
+		echo eden('block')->field()
+        ->combobox($key)
+        ->addOptions('states', array('local' => $states))
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setHolder(isset($holders[$key]) ? $holders[$key]: null); ?>
+        <?php else: ?>
+        <?php //Text Field Block
+		echo eden('block')->field()
+		->text($key)
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setHolder(isset($holders[$key]) ? $holders[$key]: null); ?>
+        <?php endif; ?>
+        
+<?php break; case 'address_neighborhood': ?>
+		<?php if(!empty($neighborhoods)): ?>
+		<?php //Autocomplete Field Block
+		echo eden('block')->field()
+        ->combobox($key)
+        ->addOptions('neighborhoods', array('local' => $neighborhoods))
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setHolder(isset($holders[$key]) ? $holders[$key]: null); ?>
+        <?php else: ?>
+        <?php //Text Field Block
+		echo eden('block')->field()
+		->text($key)
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setHolder(isset($holders[$key]) ? $holders[$key]: null); ?>
+        <?php endif; ?>
+        
+<?php break; case 'address_region': ?>     
+		<?php if(!empty($regions)): ?>
+		<?php //Autocomplete Field Block
+		echo eden('block')->field()
+        ->combobox($key)
+        ->addOptions('regions', array('local' => $regions))
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setHolder(isset($holders[$key]) ? $holders[$key]: null); ?>
+        <?php else: ?>
+        <?php //Text Field Block
+		echo eden('block')->field()
+		->text($key)
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setHolder(isset($holders[$key]) ? $holders[$key]: null); ?>
+        <?php endif; ?>   
+        
+<?php break; case 'address_country': ?>
+		<?php echo eden('block')->field()
+		->select($key,
+		isset($data[$key]) ? $data[$key]: null, 
+		$countries); ?>
+        
+<?php break; case 'address_phone': ?>
+		<?php if($pattern): ?>
+        <?php //Mask Field Block 
+		echo eden('block')->field()
+		->mask($pattern)
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setHolder(isset($holders[$key]) ? $holders[$key]: null); ?>
+        <?php else: ?>
+    	<?php //Text Field Block
+		echo eden('block')->field()
+		->text($key)
+		->setType('tel')
+		->setValue(isset($data[$key]) ? $data[$key]: null)
+		->setHolder(isset($holders[$key]) ? $holders[$key]: null); ?>
+        <?php endif; ?>
+<?php break; endswitch; ?>
+        
+        <?php if(isset($errors[$key])): ?>
+        <span class="help-block"><?php echo $errors[$key]; ?></span>
+        <?php endif; ?>
+    </div>
+</div>
+<?php endforeach; ?>

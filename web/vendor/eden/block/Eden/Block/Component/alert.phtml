@@ -1,0 +1,17 @@
+<div class="alert alert-block alert-<?php echo $type == 'error' ? 'danger': $type; ?>">
+	<button type="button" class="close" data-dismiss="alert">
+		<i class="icon-remove"></i>
+	</button>
+	
+	<?php if($type == 'success'): ?>
+	<i class="icon-ok"></i>
+	<?php elseif($type == 'warning'): ?>
+	<i class="icon-warning-sign"></i>
+	<?php elseif($type == 'error'): ?>
+	<i class="icon-remove"></i>
+	<?php elseif($type == 'info'): ?>
+	<i class="icon-info"></i>
+	<?php endif; ?>
+	
+	<?php echo $message; ?>
+</div>

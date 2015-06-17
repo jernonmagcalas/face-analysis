@@ -1,0 +1,23 @@
+{
+    "name": "eden/oauth",
+    "type": "library",
+    "description": "Eden Oauth1 and Oauth2 component",
+    "keywords": ["eden", "library"],
+    "homepage": "http://eden-php.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christian Blanquera",
+            "email": "cblanquera@openovate.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.1",
+		"eden/core": "1.*",
+        "eden/curl": "1.*"
+    },
+    "autoload": {
+         "psr-0": { "Eden\\Oauth\\": "" }
+    },
+	"target-dir": "Eden/Oauth"
+}

@@ -1,0 +1,24 @@
+<ul class="eden-block-tree dropdown-menu<?php 
+if(trim($handle)): ?> eden-block-tree-collapsable<?php endif; ?>">
+	<?php foreach($rows as $key => $row): ?>
+    <li<?php if(trim($row['class'])): ?> class="<?php echo $row['class']; ?>"<?php endif; ?>>
+    	<?php echo call_user_func($callback, trim($root.'/'.$key, '/'), $row); ?>
+        
+		<?php if(isset($row['children']) 
+		&& !empty($row['children'])): ?>
+        <?php echo eden('block')->component()
+		->tree(trim($root.'/'.$key, '/'))
+		->setData($row['children'])
+		->canToggle($handle)
+		->setCallback($callback); ?>
+        <?php endif; ?>
+    </li>
+    <?php endforeach; ?>
+</ul>
+<?php if(trim($handle) && !trim($root)): ?>
+<?php if(!$loaded): ?>
+<link rel="stylesheet" type="text/css" href="<?php echo $cdn(); ?>/styles/tree.css" />
+<?php endif; ?>
+<script type="text/javascript">jQuery('ul.eden-block-tree-collapsable').not('.eden-field-loaded').addClass('eden-field-loaded').find('<?php echo $handle; ?>').addClass('eden-block-tree-handle').click(function() {$(this).parents('li:first').find('ul.eden-block-tree:first').toggle(300);});
+</script>
+<?php endif; ?>

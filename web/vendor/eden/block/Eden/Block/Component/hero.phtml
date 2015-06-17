@@ -1,0 +1,100 @@
+<?php if(!$loaded): ?>
+<script type="text/javascript" src="<?php echo $cdn(); ?>/scripts/hero.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo $cdn(); ?>/styles/hero.css" />
+
+<script type="text/javascript">
+  $("document").ready(function(){
+      var interval= <?php 
+         if(isset($attributes['interval'])){
+           echo $attributes['interval'];
+        }
+        else {
+          echo "5000;";
+        }
+        ?> ;
+
+      $('.carousel').carousel({
+        interval:interval
+      });
+
+  });
+</script>
+<?php endif; ?>
+
+<?php
+  $slideto="";
+  $items="";
+  if(! empty($attributes['imageSlides'])){
+    foreach($attributes['imageSlides'] as $index =>$key){
+        if($index==0){
+          $slideto.="<li data-target='#myCarousel' data-slide-to='{$index}' class='active'></li>";
+          $items.="
+                <div class='active item'>
+        ";
+        }
+        else{
+          $slideto.="<li data-target='#myCarousel' data-slide-to='{$index}'</li>";
+          $items.="
+                <div class='item'>
+          ";
+        }
+
+        foreach($key as $index2=>$key2){
+            switch($index2){
+              case "img": 
+                          $items.="<img width='100%' height='100%' src='{$key2}' />";
+                break;
+              case 'heading':
+                          $items.=" <div  class='carousel-caption'>
+                                        <h4>{$key2}</h4>";
+                break;
+              case 'description':
+                          $items.="  <p>{$key2}</p>
+                                  </div>
+              </div>";
+                break;
+              default:
+                break;
+            }
+
+        }
+
+    }
+    
+  }
+?>
+
+<div id="myCarousel" class="carousel slide">
+  <ol class="carousel-indicators">
+    <!-- old pattern -->
+  <!--   <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li> -->
+    <!-- old pattern -->
+    <?php
+      if(isset($slideto)){
+          echo $slideto;
+      }
+    ?>
+  </ol>
+  <!-- Carousel items -->
+  <div class="carousel-inner">
+    <!-- old pattern -->
+    <!--     <div class="active item"><img width="100%" height="100%" src="<?php echo $cdn(); ?>/images/slider/3.jpg" alt="1.png"/>
+          <div  class="carousel-caption ">
+            <h4>First thumbnail</h4>
+            <p>Description</p>
+          </div>
+        </div> -->
+    <!-- old pattern -->
+    <?php
+      if(isset($items)){
+          echo $items;
+      }
+
+    ?>
+  </div>
+  <!-- Carousel nav -->
+  <a class="carousel-control left" href="#myCarousel" data-slide="prev"><span id="move_prev">&lsaquo;</span></a>
+  <a class="carousel-control right" href="#myCarousel" data-slide="next"><span id="move_next">&rsaquo;</span></a>
+</div>

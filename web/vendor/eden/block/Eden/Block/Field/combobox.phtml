@@ -1,0 +1,14 @@
+<div class="input-group eden-field-combobox">
+    <?php include __DIR__ . '/text.phtml'; ?>
+    <span class="input-group-addon">
+    	<i class="icon-caret-down"></i>
+    </span>
+</div>
+
+<?php if(!$loaded): ?>
+<script type="text/javascript" src="<?php echo $cdn(); ?>/scripts/autocomplete.js"></script>
+<script type="text/javascript" src="<?php echo $cdn(); ?>/scripts/combobox.js"></script>
+<?php endif; ?>
+<script type="text/javascript">
+jQuery('div.eden-field-combobox').not('.eden-field-loaded').addClass('eden-field-loaded').combobox(<?php echo json_encode($options); ?>);
+</script>

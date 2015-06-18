@@ -21,7 +21,7 @@ class Facepp
     // public $server          = 'http://apicn.faceplusplus.com/v2';
     // public $server         = 'https://apicn.faceplusplus.com/v2';
  //   public $server         = 'http://apius.faceplusplus.com/v2';
-    public $server         = 'https://apius.faceplusplus.com/v2';
+    public $server         = 'http://apius.faceplusplus.com/v2';
 
 
     public $api_key         = '83ec85fc12b1d2ca37067da2aa4b510a';        // set your API KEY or set the key static in the property
@@ -51,17 +51,17 @@ class Facepp
     {
         $curl_handle = curl_init();
         curl_setopt($curl_handle, CURLOPT_URL, $request_url);
-        curl_setopt($curl_handle, CURLOPT_FILETIME, true);
-        curl_setopt($curl_handle, CURLOPT_FRESH_CONNECT, false);
-        curl_setopt($curl_handle, CURLOPT_CLOSEPOLICY, CURLCLOSEPOLICY_LEAST_RECENTLY_USED);
-        curl_setopt($curl_handle, CURLOPT_MAXREDIRS, 5);
-        curl_setopt($curl_handle, CURLOPT_HEADER, false);
+//        curl_setopt($curl_handle, CURLOPT_FILETIME, true);
+//        curl_setopt($curl_handle, CURLOPT_FRESH_CONNECT, false);
+//        curl_setopt($curl_handle, CURLOPT_CLOSEPOLICY, CURLCLOSEPOLICY_LEAST_RECENTLY_USED);
+//        curl_setopt($curl_handle, CURLOPT_MAXREDIRS, 5);
+//        curl_setopt($curl_handle, CURLOPT_HEADER, false);
         curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl_handle, CURLOPT_TIMEOUT, 5184000);
-        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 120);
-        curl_setopt($curl_handle, CURLOPT_NOSIGNAL, true);
+//        curl_setopt($curl_handle, CURLOPT_TIMEOUT, 5184000);
+//        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 120);
+//        curl_setopt($curl_handle, CURLOPT_NOSIGNAL, true);
         curl_setopt($curl_handle, CURLOPT_REFERER, $request_url);
-        curl_setopt($curl_handle, CURLOPT_USERAGENT, $this->useragent);
+//        curl_setopt($curl_handle, CURLOPT_USERAGENT, $this->useragent);
 
         if (extension_loaded('zlib')) {
             curl_setopt($curl_handle, CURLOPT_ENCODING, '');

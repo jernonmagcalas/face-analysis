@@ -7,7 +7,6 @@
 		font: 13px Arial, Helvetica, Sans-serif;
 	}
 	.analysis { margin-top: 20px; font-size: 15px; display: none; }
-	.container { margin: 0 auto; width: 500px; }
 	.uploadifive-button {
 		margin: 10px auto;
 	}
@@ -20,11 +19,28 @@
 		padding: 0 3px 3px;
 		width: 300px;
 	}
-	#image img { height: 300px; width: auto; }
+    #image { text-align: center; display: inline-block; position: relative; }
+	#image img {  }
 	.input-group { margin: 0 auto; width: 300px; }
 	.input-group-addon { padding: 0 !important; }
 	.url { height: 36px; }
-	form { margin:13% auto 0px; }
+    .container { text-align: center; }
+
+    .face-wrap {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border: 2px solid #19D197;
+    }
+    .face-wrap .info {
+        width: 48px;
+        margin-top: -24px;
+        margin-left: 18px;
+        background-color: rgba(197, 177, 177, 0.5);
+        font-size: 19px;
+        color: rgb(255, 77, 0);
+    }
+    .face-wrap .info img { width: 20px; }
 </style>
 <header>
 	<h2>Face Scanner</h2>
@@ -34,59 +50,83 @@
 	<form method="post">
 		<div id="queue"></div>
 		<div id="image">
-			<?php if(isset($image)):?>
-			<style type="text/css">
-			form { margin: 5% auto 0px !important; width: 500px; }
-				#queue { display: none; }
-				#image { height: 300px; text-align: center; width: 100%; }
-			</style>
-			<img src="<?php echo $image; ?>">
-		<?php endif;?></div>
+        </div>
 		<input id="file_upload" name="file_upload" type="file">
 		<div class="input-group">
 	      <input type="text" class="form-control url" placeholder="url of image" name="url">
 	      <div class="input-group-addon"><input type="submit" class="btn" value="submit"></div>
 	    </div>
 	</form>
-	<div class="analysis">
-		<div id="age"><strong>AGE:</strong> <span class="value">22 yrs. old</span></div>
-		<div id="gender"><strong>GENDER:</strong> <span class="value">Female</span></div>
-		<div id="race"><strong>RACE:</strong> <span class="value">Asian</span></div>
-		<div id="glasses"><strong>You are wearing a glasses.</strong></div>
-		<div id="happy-meter"><strong>HAPPY METER:</strong> <span class="value">89% happy</span></div>
-	</div>
 </div>
+<script type="text/html" id="face-template">
+    <div class="face-wrap">
+        <div class="info">
+            [AGE] <img src="/images/[SMILE].png" alt=""/>
+        </div>
+    </div>
+</script>
 
 <script type="text/javascript">
-	<?php $timestamp = time();?>
-	$(function() {
-		$('#file_upload').uploadifive({
-			'auto'             : true,
-			'checkScript'      : 'check-exists.php',
-			'formData'         : {
-								   'timestamp' : '<?php echo $timestamp;?>',
-								   'token'     : '<?php echo md5('unique_salt' . $timestamp);?>'
-			                     },
-			'queueID'          : 'queue',
-			'uploadScript'     : '/',
-			'onUploadComplete' : function(file, data) {
-				data = JSON.parse(data);
+    (function($) {
+        var c = function () {
+            this.__construct();
+        }; var p = c.prototype;
 
-				var glasses = data.analysis[0].face[0].attribute.glass.value == 'None' ? 'You are not wearing a glasses' : 'You are wearing a glasses';
+        p.__construct = function() {
+            $('#file_upload').uploadifive({
+                'auto'             : true,
+                'checkScript'      : 'check-exists.php',
+                'formData'         : {
+                    'timestamp' : '<?php echo $timestamp;?>',
+                    'token'     : '<?php echo $token;?>'
+                },
+                'queueID'          : 'queue',
+                'uploadScript'     : '/',
+                'onUploadComplete' : this.onComplete
+            });
+        };
 
-				$('#queue').hide();
-				$('#image').html('<img src="' + data.image +'" />');
-				$('#image').css({
-					'height': '300px',
-					'text-align': 'center',
-					'width': '100%' });
-				$('#age .value').html(data.analysis[0].face[0].attribute.age.value);
-				$('#gender .value').html(data.analysis[0].face[0].attribute.gender.value);
-				$('#race .value').html(data.analysis[0].face[0].attribute.race.value);
-				$('#glasses strong').html(glasses);
-				$('#happy-meter .value').html(data.analysis[0].face[0].attribute.smiling.value + '%');
-				$('.analysis').show();
-			}
-		});
-	});
+        p.onComplete = function(file, data) {
+            data = JSON.parse(data);
+            console.log(data);
+            var imgContainer = $('#image')
+            $('#queue').hide();
+            imgContainer.html('<img src="' + data.image +'" />');
+
+            $.each(data.analysis.face, function(i, face) {
+                var template = $('#face-template').html();
+                var smile = 'sad';
+
+                if(face.attribute.smiling.value > 60) {
+                    smile = 'happy';
+                } else if(face.attribute.smiling.value > 39) {
+                    smile = 'plain';
+                }
+
+                template = template.replace('[AGE]', face.attribute.age.value)
+                        .replace('[SMILE]', smile);
+                template = $(template);
+
+                var faceHeight = convertPercentToPixel(imgContainer.height(), face.position.height);
+                var faceWidth = convertPercentToPixel(imgContainer.height(), face.position.width + 20);
+                var top = convertPercentToPixel(imgContainer.height(), face.position.center.y) - (faceHeight/2);
+                var left = convertPercentToPixel(imgContainer.width(), face.position.center.x) - (faceWidth/2);
+                template.css('top', top);
+                template.css('left', left);
+                template.css('height', faceHeight );
+                template.css('width', faceWidth);
+
+                var info = template.find('.info');
+                info.css('margin-left', (faceWidth / 2) - 24);
+
+                imgContainer.append(template);
+            })
+        };
+
+        var convertPercentToPixel = function(val, percent) {
+            return val * (percent * .01);
+        }
+
+        new c();
+	})(jQuery);
 </script>

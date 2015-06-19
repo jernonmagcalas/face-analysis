@@ -19,7 +19,7 @@ class Index extends \Page
 	public function getVariables()
 	{	
 		if(isset($_POST) && !empty($_POST)) {
-			if(isset($_POST['token'])) {
+			if(!empty($_FILES['Filedata'])) {
 				$uploadDir = control()->path('upload').'/';
 
 				// Set the allowed file extensions
@@ -42,6 +42,7 @@ class Index extends \Page
 						$ch = curl_init();
 
 						curl_setopt($ch, CURLOPT_URL, 'http://server-skanr.aprilsacil.com/');
+//                        curl_setopt($ch, CURLOPT_URL, 'http://server.faceanalyzer.dev');
 						curl_setopt($ch, CURLOPT_POST, 1);
 						curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
 
@@ -64,10 +65,11 @@ class Index extends \Page
 				}
 			}
 
-			if(isset($_POST['url'])) {
+			if(!empty($_POST['url'])) {
 				$ch = curl_init();
 
-				curl_setopt($ch, CURLOPT_URL, 'http://server.face-analyzer.com');
+				curl_setopt($ch, CURLOPT_URL, 'http://server-skanr.aprilsacil.com/');
+//                curl_setopt($ch, CURLOPT_URL, 'http://server.faceanalyzer.dev');
 				curl_setopt($ch, CURLOPT_POST, 1);
 				curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($_POST));
 
@@ -77,9 +79,9 @@ class Index extends \Page
 
 				curl_close ($ch);
 
-				echo $result;
+//				$data = file_get_contents($_POST['url']);
 				
-				return array('image' => $post['img'], 'analysis' => $result );
+				die(json_encode(array('image' => $_POST['url'], 'analysis' => json_decode($result, true) )));
 			}
 		}
 

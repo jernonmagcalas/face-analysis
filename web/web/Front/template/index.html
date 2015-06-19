@@ -70,6 +70,7 @@
     (function($) {
         var c = function () {
             this.__construct();
+            this.__listen();
         }; var p = c.prototype;
 
         p.__construct = function() {
@@ -86,9 +87,25 @@
             });
         };
 
+        p.__listen = function() {
+            var self = this;
+            $('form').submit(function() {
+                $.post('/', {url : $('input[name="url"]').val()}, function(res) {
+                    self.onComplete(null, res);
+                });
+                return false;
+            });
+        };
+
         p.onComplete = function(file, data) {
             data = JSON.parse(data);
             console.log(data);
+
+            if(!data.analysis || !data.analysis.face || !data.analysis.face.length) {
+                alert('Unable to analyse the photo.');
+                return false;
+            }
+
             var imgContainer = $('#image')
             $('#queue').hide();
             imgContainer.html('<img src="' + data.image +'" />');

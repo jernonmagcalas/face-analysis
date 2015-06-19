@@ -28,7 +28,7 @@ if(!empty($_POST['img'])) {
 
     #detect local image
     $params['url']          = 'http://'.$_SERVER['HTTP_HOST'].$path.'/'.$file.'.'.$extension;
-    $params['url']          = 'http://www.thoughtpursuits.com/wp-content/uploads/2014/03/happy-sad-face-720x340.jpg';
+//    $params['url']          = 'http://www.thoughtpursuits.com/wp-content/uploads/2014/03/happy-sad-face-720x340.jpg';
 } else {
     $params['url'] = $_POST['url'];
 }

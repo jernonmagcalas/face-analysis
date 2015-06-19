@@ -41,7 +41,7 @@ class Index extends \Page
 
 						$ch = curl_init();
 
-						curl_setopt($ch, CURLOPT_URL, 'http://server.faceanalyzer.dev/');
+						curl_setopt($ch, CURLOPT_URL, 'http://server-skanr.aprilsacil.com/');
 						curl_setopt($ch, CURLOPT_POST, 1);
 						curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($post));
 
